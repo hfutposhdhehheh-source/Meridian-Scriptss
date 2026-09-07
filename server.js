@@ -3,20 +3,17 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.static(__dirname));
-
 app.get('/api/search', (req, res) => {
-    const query = req.query.q;
     res.json({
-        source: 'cache',
+        success: true,
         data: {
             result: {
                 scripts: [
                     {
-                        title: 'ตัวอย่างสคริปต์สำหรับ ' + query,
-                        game: { name: query },
-                        views: 1337,
-                        script: 'print("Hello from Nexus Hub: ' + query + '");'
+                        title: 'Test Script',
+                        game: { name: req.query.q || 'test' },
+                        views: 100,
+                        script: 'print("OK");'
                     }
                 ]
             }
@@ -28,4 +25,6 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(PORT, () => console.log('Server running on port ' + PORT));
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
