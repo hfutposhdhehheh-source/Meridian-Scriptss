@@ -1,22 +1,20 @@
 const express = require('express');
 const path = require('path');
-const axios = require('axios'); // ต้องแน่ใจว่าติดตั้ง axios หรือใช้ fetch ในตัว Node.js ได้เลย
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.static(__dirname));
 
-// เชื่อมต่อ API จริงของ ScriptBlox
+// เชื่อมต่อ API ของ ScriptBlox โดยใช้ fetch ในตัว Node.js
 app.get('/api/search', async (req, res) => {
     const q = req.query.q || '';
     try {
-        // ยิง request ไปที่ API ค้นหาสคริปต์ของ ScriptBlox
-        const response = await axios.get(`https://scriptblox.com/api/script/search?q=${encodeURIComponent(q)}`);
+        const apiResponse = await fetch(`https://scriptblox.com/api/script/search?q=${encodeURIComponent(q)}`);
+        const data = await apiResponse.json();
         
-        // ส่งผลลัพธ์ข้อมูลดิบจาก ScriptBlox กลับไปให้หน้าเว็บของคุณ
         res.json({
             success: true,
-            data: response.data
+            data: data
         });
     } catch (error) {
         console.error('API Fetch Error:', error.message);
