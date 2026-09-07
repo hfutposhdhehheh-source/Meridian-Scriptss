@@ -5,10 +5,8 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.static(__dirname));
 
-// รองรับ API ค้นหาสคริปต์
 app.get('/api/search', (req, res) => {
     const query = req.query.q;
-    // ตัวอย่างโครงสร้างข้อมูลที่หน้าเว็บคาดหวัง
     res.json({
         source: 'cache',
         data: {
