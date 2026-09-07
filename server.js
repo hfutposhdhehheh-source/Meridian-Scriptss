@@ -5,18 +5,22 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.static(__dirname));
 
-// API สำหรับค้นหาและกรองสคริปต์
 app.get('/api/search', async (req, res) => {
     const q = req.query.q || '';
-    const mode = req.query.mode || 'all'; // ค่าเริ่มต้นเป็น 'all' (ทั้งหมด)
+    const mode = req.query.mode || 'all';
     
     try {
         const apiResponse = await fetch(`https://scriptblox.com/api/script/search?q=${encodeURIComponent(q)}`);
         const data = await apiResponse.json();
         
-        let scripts = data.result?.scripts || [];
+        // ป้องกันเคสที่โครงสร้าง API เปลี่ยนแปลงหรือไม่เจอ scripts
+        let scripts = [];
+        if (data.result && Array.isArray(data.result.scripts)) {
+            scripts = data.result.scripts;
+        } else if (data.scripts && Array.isArray(data.scripts)) {
+            scripts = data.scripts;
+        }
 
-        // กรองตามเงื่อนไข คีย์ / ไม่มีคีย์
         if (mode === 'no-key') {
             scripts = scripts.filter(s => !s.key && !s.isKeySystem);
         } else if (mode === 'has-key') {
@@ -25,16 +29,18 @@ app.get('/api/search', async (req, res) => {
 
         res.json({
             success: true,
+            source: 'API',
             data: {
-                ...data.result,
-                scripts: scripts
+                result: {
+                    scripts: scripts
+                }
             }
         });
     } catch (error) {
         console.error('API Fetch Error:', error.message);
         res.status(500).json({
             success: false,
-            message: 'ไม่สามารถดึงข้อมูลจาก ScriptBlox ได้ในขณะนี้'
+            error: 'ไม่สามารถดึงข้อมูลจาก ScriptBlox ได้ในขณะนี้'
         });
     }
 });
@@ -46,3 +52,4 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
     console.log('Server is running on port ' + PORT);
 });
+
