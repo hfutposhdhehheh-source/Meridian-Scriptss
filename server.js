@@ -5,7 +5,28 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.static(__dirname));
 
-app.get('/', (req, res) => {
+// รองรับ API ค้นหาสคริปต์
+app.get('/api/search', (req, res) => {
+    const query = req.query.q;
+    // ตัวอย่างโครงสร้างข้อมูลที่หน้าเว็บคาดหวัง
+    res.json({
+        source: 'cache',
+        data: {
+            result: {
+                scripts: [
+                    {
+                        title: 'ตัวอย่างสคริปต์สำหรับ ' + query,
+                        game: { name: query },
+                        views: 1337,
+                        script: 'print("Hello from Nexus Hub: ' + query + '");'
+                    }
+                ]
+            }
+        }
+    });
+});
+
+app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
