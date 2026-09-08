@@ -5,15 +5,13 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.static(__dirname));
 
-// ฟังก์ชันดึงข้อมูลแบบแยกอิสระ ป้องกันตัวนึงล่มแล้วพังทั้งหมด
 async function safeFetch(url, parserFn) {
     try {
-        const response = await fetch(url, { headers: { 'User-Agent': 'NexusHub-Bot/2.0' } });
+        const response = await fetch(url, { headers: { 'User-Agent': 'NexusHub-Bot/3.0' } });
         if (!response.ok) return [];
         const data = await response.json();
         return parserFn(data);
     } catch (err) {
-        // ถ้าแหล่งนี้ล่ม ให้ข้ามไปเงียบๆ ไม่ให้ระบบล่มตาม
         return [];
     }
 }
@@ -27,9 +25,8 @@ app.get('/api/search', async (req, res) => {
     }
 
     try {
-        // ยิงพร้อมกันทุกแหล่งโดยใช้ safeFetch ดักพังไว้ทุกตัว
-        const [scriptBloxResults, rscriptsResults, githubResults] = await Promise.all([
-            // 1. ScriptBlox Parser
+        const [scriptBloxResults, rscriptsResults] = await Promise.all([
+            // 1. ScriptBlox Parser (ดึงครบทุกฟิลด์ตามโครงสร้างจริง)
             safeFetch(`https://scriptblox.com/api/script/search?q=${encodeURIComponent(q)}`, (data) => {
                 const list = data.result?.scripts || data.scripts || [];
                 return list.map(s => ({
@@ -38,41 +35,29 @@ app.get('/api/search', async (req, res) => {
                     script: s.script || '',
                     key: Boolean(s.key || s.isKeySystem),
                     source: 'ScriptBlox',
+                    views: s.views || 0,
                     verified: Boolean(s.verified)
                 }));
             }),
 
-            // 2. Rscripts Parser
+            // 2. Rscripts Parser (ดึงครบทุกฟิลด์ ป้องกันกล่องดำและค่าว่าง)
             safeFetch(`https://rscripts.net/api/v2/scripts?q=${encodeURIComponent(q)}`, (data) => {
                 const list = data.scripts || data.data || [];
                 return list.map(s => ({
                     title: s.title || s.name || 'No Title',
-                    game: s.gameTitle || s.game || 'Unknown Game',
-                    script: s.script || s.code || '',
-                    key: Boolean(s.isKey || s.keySystem),
+                    game: s.gameTitle || s.game?.name || s.game || 'Unknown Game',
+                    script: s.script || s.code || s.rawScript || s.downloadUrl || '',
+                    key: Boolean(s.isKey || s.keySystem || s.key),
                     source: 'Rscripts',
+                    views: s.views || s.click || s.downloads || 0,
                     verified: Boolean(s.verified)
-                }));
-            }),
-
-            // 3. GitHub Code Parser
-            safeFetch(`https://api.github.com/search/code?q=${encodeURIComponent(q)}+extension:lua`, (data) => {
-                const list = data.items || [];
-                return list.slice(0, 10).map(item => ({
-                    title: item.name || 'GitHub Script',
-                    game: q,
-                    script: `loadstring(game:HttpGet("${item.html_url.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/')}",true))()`,
-                    key: false,
-                    source: 'GitHub',
-                    verified: false
                 }));
             })
         ]);
 
-        // รวมร่างข้อมูลทั้งหมดเข้าด้วยกัน
-        let allScripts = [...scriptBloxResults, ...rscriptsResults, ...githubResults];
+        let allScripts = [...scriptBloxResults, ...rscriptsResults];
 
-        // ระบบกรองสคริปต์ซ้ำ (Deduplication) เช็คจากชื่อหรือตัวสคริปต์ที่เหมือนกันเป๊ะ
+        // ระบบกรองสคริปต์ซ้ำ (Deduplication)
         const uniqueMap = new Map();
         allScripts.forEach(item => {
             const keyIdentifier = item.script.trim() || item.title;
@@ -91,7 +76,7 @@ app.get('/api/search', async (req, res) => {
 
         res.json({
             success: true,
-            source: 'Aggregated & Hardened Multi-Source',
+            source: 'Verified Multi-Source Aggregator',
             count: processedScripts.length,
             data: {
                 result: {
@@ -104,7 +89,7 @@ app.get('/api/search', async (req, res) => {
         console.error('Fatal Server Error:', error.message);
         res.status(500).json({
             success: false,
-            error: 'ระบบขัดข้องชั่วคราว แต่ปลอดภัยไร้กังวล'
+            error: 'ระบบขัดข้องชั่วคราว'
         });
     }
 });
@@ -114,5 +99,6 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log('Nexus Hub Hardened Server running on port ' + PORT);
+    console.log('Nexus Hub Server running on port ' + PORT);
 });
+
