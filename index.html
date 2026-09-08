@@ -3,20 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nexus Scripts Hub | Ultimate Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Nexus Scripts Hub | Enterprise Ultimate Edition v4.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #030712;
-            --card-bg: #0f172a;
-            --card-hover: #1e293b;
+            --bg-color: #020617;
+            --card-bg: #090d19;
+            --card-hover: #111827;
             --border-color: #1e293b;
+            --border-glow: #38bdf8;
             --accent-glow: #0ea5e9;
-            --accent-gradient: linear-gradient(135deg, #0ea5e9, #6366f1);
+            --accent-gradient: linear-gradient(135deg, #0ea5e9 0%, #6366f1 50%, #8b5cf6 100%);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --success-color: #10b981;
             --warning-color: #f59e0b;
+            --danger-color: #ef4444;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Prompt', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -28,104 +30,128 @@
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            padding: 24px 16px;
+            padding: 30px 16px;
             background-image: 
-                radial-gradient(circle at 50% -20%, rgba(14, 165, 233, 0.15) 0%, transparent 60%),
-                radial-gradient(circle at 90% 90%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+                radial-gradient(circle at 50% -20%, rgba(14, 165, 233, 0.18) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 0% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
+            background-attachment: fixed;
         }
 
         .app-container {
             width: 100%;
-            max-width: 650px;
+            max-width: 720px;
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 22px;
         }
 
-        /* Header */
+        /* Header Deluxe */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border-color);
+            padding: 18px 22px;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
         }
 
         .logo-area {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
 
         .logo-icon {
-            width: 42px;
-            height: 42px;
+            width: 48px;
+            height: 48px;
             background: var(--accent-gradient);
-            border-radius: 12px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
-            box-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
+            font-size: 1.6rem;
+            box-shadow: 0 0 25px rgba(14, 165, 233, 0.4);
+            animation: pulseGlow 3s infinite alternate;
         }
 
-        .logo-text {
-            font-size: 1.4rem;
-            font-weight: 700;
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px rgba(14, 165, 233, 0.3); }
+            100% { box-shadow: 0 0 30px rgba(99, 102, 241, 0.6); }
+        }
+
+        .logo-text-group h1 {
+            font-size: 1.35rem;
+            font-weight: 800;
             background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: 0.5px;
         }
 
+        .logo-text-group p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
         .status-badge {
-            font-size: 0.78rem;
-            background: rgba(16, 185, 129, 0.1);
+            font-size: 0.75rem;
+            background: rgba(16, 185, 129, 0.12);
             color: var(--success-color);
-            border: 1px solid rgba(16, 185, 129, 0.25);
-            padding: 6px 12px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 6px 14px;
             border-radius: 20px;
-            font-weight: 500;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 7px;
         }
 
         .status-badge::before {
             content: '';
-            width: 7px;
-            height: 7px;
+            width: 8px;
+            height: 8px;
             background-color: var(--success-color);
             border-radius: 50%;
             box-shadow: 0 0 10px var(--success-color);
+            animation: blink 1.5s infinite;
         }
 
-        /* Search Section */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* Search & Control Center */
         .search-section {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            padding: 16px;
-            border-radius: 18px;
-            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 22px;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
         }
 
         .search-box { 
             display: flex; 
             width: 100%; 
-            gap: 8px; 
-            background: #030712;
-            padding: 6px 6px 6px 14px;
-            border-radius: 12px;
+            gap: 10px; 
+            background: #020617;
+            padding: 8px 8px 8px 16px;
+            border-radius: 14px;
             border: 1px solid var(--border-color);
             transition: all 0.3s ease;
         }
 
         .search-box:focus-within {
             border-color: var(--accent-glow);
-            box-shadow: 0 0 20px rgba(14, 165, 233, 0.25);
+            box-shadow: 0 0 25px rgba(14, 165, 233, 0.25);
         }
 
         input { 
@@ -133,7 +159,7 @@
             border: none; 
             background-color: transparent; 
             color: #fff; 
-            font-size: 1rem; 
+            font-size: 1.05rem; 
             outline: none; 
         }
 
@@ -142,24 +168,28 @@
             border: none;
             color: var(--text-muted);
             cursor: pointer;
-            padding: 0 8px;
-            font-size: 1rem;
+            padding: 0 10px;
+            font-size: 1.1rem;
             display: none;
+            transition: color 0.2s;
         }
+        .clear-btn:hover { color: #fff; }
 
         button.search-btn { 
-            padding: 0 22px; 
+            padding: 0 26px; 
             border-radius: 10px; 
             border: none; 
             background: var(--accent-gradient); 
             color: #fff; 
-            font-size: 0.95rem; 
+            font-size: 1rem; 
             font-weight: 600; 
             cursor: pointer; 
-            transition: opacity 0.2s, transform 0.1s; 
+            transition: all 0.2s; 
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
         }
 
-        button.search-btn:active { transform: scale(0.96); opacity: 0.85; }
+        button.search-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        button.search-btn:active { transform: scale(0.96); }
 
         /* Filter Controls */
         .filter-row {
@@ -169,21 +199,30 @@
         }
 
         .filter-pill {
-            background: #030712;
+            background: #020617;
             border: 1px solid var(--border-color);
             color: var(--text-muted);
-            padding: 7px 14px;
-            border-radius: 10px;
-            font-size: 0.82rem;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.85rem;
             cursor: pointer;
             font-weight: 500;
-            transition: all 0.2s ease;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .filter-pill:hover {
+            border-color: rgba(14, 165, 233, 0.4);
+            color: var(--text-main);
         }
 
         .filter-pill.active {
             background: rgba(14, 165, 233, 0.15);
             color: #38bdf8;
-            border-color: rgba(14, 165, 233, 0.4);
+            border-color: rgba(14, 165, 233, 0.5);
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.2);
         }
 
         /* Quick Tags */
@@ -191,18 +230,18 @@
             display: flex;
             gap: 8px;
             overflow-x: auto;
-            padding-bottom: 2px;
+            padding-bottom: 4px;
             scrollbar-width: none;
         }
         .quick-tags::-webkit-scrollbar { display: none; }
 
         .tag {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border-color);
             color: var(--text-muted);
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 0.78rem;
+            font-size: 0.8rem;
             white-space: nowrap;
             cursor: pointer;
             transition: all 0.2s;
@@ -212,52 +251,65 @@
             background: rgba(14, 165, 233, 0.1);
             color: #38bdf8;
             border-color: rgba(14, 165, 233, 0.3);
+            transform: translateY(-1px);
         }
 
         /* Meta Bar */
         .results-meta {
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             color: var(--text-muted);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 4px;
+            padding: 0 6px;
         }
 
         /* Results Area */
         #results { 
             display: flex; 
             flex-direction: column; 
-            gap: 16px; 
+            gap: 18px; 
         }
 
         .script-card { 
             background-color: var(--card-bg); 
             border: 1px solid var(--border-color); 
-            border-radius: 16px; 
-            padding: 18px; 
+            border-radius: 18px; 
+            padding: 20px; 
             display: flex; 
             flex-direction: column; 
-            gap: 12px; 
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            animation: slideUp 0.3s ease-out;
-            transition: border-color 0.2s, transform 0.2s;
+            gap: 14px; 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .script-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--accent-gradient);
+            opacity: 0.7;
         }
 
         .script-card:hover {
-            border-color: rgba(14, 165, 233, 0.4);
+            border-color: rgba(14, 165, 233, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(14, 165, 233, 0.1);
         }
 
         .script-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 10px;
+            gap: 12px;
         }
 
         .script-title { 
-            font-size: 1.1rem; 
-            font-weight: 600; 
+            font-size: 1.15rem; 
+            font-weight: 700; 
             color: var(--text-main); 
             line-height: 1.4;
         }
@@ -268,36 +320,52 @@
             flex-shrink: 0;
         }
 
-        .key-badge {
-            font-size: 0.72rem;
-            padding: 3px 8px;
-            border-radius: 6px;
+        .badge {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 8px;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
-        .key-badge.no { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
-        .key-badge.yes { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .badge.no { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .badge.yes { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .badge.source { background: rgba(99, 102, 241, 0.15); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.3); }
+        .badge.verified { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
 
         .game-info { 
-            font-size: 0.82rem; 
+            font-size: 0.85rem; 
             color: var(--text-muted); 
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .code-container {
+            position: relative;
+            width: 100%;
         }
 
         textarea { 
             width: 100%; 
-            height: 100px; 
-            background-color: #030712; 
+            height: 110px; 
+            background-color: #020617; 
             border: 1px solid var(--border-color); 
             color: #38bdf8; 
-            padding: 12px; 
-            border-radius: 10px; 
+            padding: 14px; 
+            border-radius: 12px; 
             resize: none; 
-            font-family: monospace; 
-            font-size: 0.82rem; 
+            font-family: 'Fira Code', monospace, monospace; 
+            font-size: 0.85rem; 
             outline: none;
-            line-height: 1.4;
+            line-height: 1.45;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            border-color: rgba(14, 165, 233, 0.5);
         }
 
         .card-actions {
@@ -307,58 +375,66 @@
         }
 
         .copy-btn { 
-            padding: 9px 20px; 
-            background-color: var(--success-color); 
+            padding: 10px 22px; 
+            background: var(--success-color); 
             color: white; 
             border: none; 
-            border-radius: 10px; 
+            border-radius: 12px; 
             cursor: pointer; 
-            font-size: 0.85rem; 
+            font-size: 0.9rem; 
             font-weight: 600; 
             transition: all 0.2s; 
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
         }
 
-        .copy-btn:hover { background-color: #059669; }
+        .copy-btn:hover { background-color: #059669; transform: translateY(-1px); }
+        .copy-btn:active { transform: scale(0.96); }
 
-        /* Welcome / Empty Box */
+        /* Welcome Box Deluxe */
         .welcome-box { 
             text-align: center; 
             color: var(--text-muted); 
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            padding: 40px 20px;
-            border-radius: 18px;
+            padding: 50px 24px;
+            border-radius: 22px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             align-items: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         }
 
-        .welcome-icon { font-size: 3rem; }
+        .welcome-icon { font-size: 3.5rem; animation: floatIcon 3s ease-in-out infinite; }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
 
         /* Toast Popup */
         #toast {
             position: fixed;
-            bottom: 30px;
+            bottom: 35px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: #1e293b;
+            background: #0f172a;
             color: #fff;
-            padding: 12px 24px;
-            border-radius: 30px;
-            border: 1px solid rgba(14, 165, 233, 0.4);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
-            font-size: 0.9rem;
+            padding: 14px 28px;
+            border-radius: 35px;
+            border: 1px solid rgba(14, 165, 233, 0.5);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+            font-size: 0.95rem;
             font-weight: 500;
             z-index: 1000;
             opacity: 0;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transition: all 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         #toast.show {
@@ -367,35 +443,41 @@
         }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(15px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         footer {
-            margin-top: 40px;
-            font-size: 0.75rem;
+            margin-top: 45px;
+            font-size: 0.8rem;
             color: var(--text-muted);
             text-align: center;
             opacity: 0.7;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
     </style>
 </head>
 <body>
 
     <div class="app-container">
-        <!-- Header -->
+        <!-- Header Deluxe -->
         <div class="header">
             <div class="logo-area">
                 <div class="logo-icon">⚡</div>
-                <div class="logo-text">NEXUS HUB</div>
+                <div class="logo-text-group">
+                    <h1>NEXUS HUB</h1>
+                    <p>Enterprise Multi-API Script Aggregator</p>
+                </div>
             </div>
-            <div class="status-badge">Online System</div>
+            <div class="status-badge">System Online</div>
         </div>
 
-        <!-- Search & Advanced Filter Section -->
+        <!-- Search & Control Center -->
         <div class="search-section">
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="พิมพ์ชื่อเกมหรือสคริปต์ที่ต้องการ..." oninput="toggleClearBtn()" onkeypress="handleKeyPress(event)" />
+                <input type="text" id="searchInput" placeholder="พิมพ์ชื่อเกมหรือสคริปต์ที่ต้องการค้นหา..." oninput="toggleClearBtn()" onkeypress="handleKeyPress(event)" />
                 <button class="clear-btn" id="clearBtn" onclick="clearSearch()">✕</button>
                 <button class="search-btn" onclick="searchScripts()">ค้นหา</button>
             </div>
@@ -414,26 +496,28 @@
                 <div class="tag" onclick="quickSearch('Blade Ball')"># Blade Ball</div>
                 <div class="tag" onclick="quickSearch('BedWars')"># BedWars</div>
                 <div class="tag" onclick="quickSearch('Script Hub')"># Script Hub</div>
+                <div class="tag" onclick="quickSearch('Anime Vanguards')"># Anime Vanguards</div>
             </div>
         </div>
 
         <!-- Meta Bar -->
         <div id="metaBar" style="display: none;" class="results-meta">
             <span id="resultCount">ผลการค้นหา (0 รายการ)</span>
-            <span style="color: var(--success-color);">⚡ ScriptBlox Real-time API</span>
+            <span style="color: var(--success-color);">⚡ Multi-Source Aggregator Active</span>
         </div>
 
         <!-- Results Area -->
         <div id="results">
             <div class="welcome-box">
                 <div class="welcome-icon">🚀</div>
-                <div style="font-weight: 600; color: var(--text-main); font-size: 1.15rem;">ยินดีต้อนรับสู่ Nexus Scripts Ultimate</div>
-                <div>เลือกหมวดหมู่ด่วนด้านบน หรือพิมพ์ชื่อค้นหาสคริปต์ที่คุณต้องการได้เลยครับ ระบบพร้อมให้บริการตลอด 24 ชม.</div>
+                <div style="font-weight: 700; color: var(--text-main); font-size: 1.25rem;">ยินดีต้อนรับสู่ Nexus Scripts Ultimate</div>
+                <div>ระบบดึงสคริปต์อัจฉริยะจากหลายแหล่งข้อมูล ปลอดภัย ไร้กล่องดำ รดเร็ว แม่นยำ 24 ชม.</div>
             </div>
         </div>
 
         <footer>
-            High-Performance Secure Backend • Optimized for Android & PC
+            <span>High-Performance Enterprise Architecture v4.0</span>
+            <span>Optimized for Android, iOS & PC Browsers</span>
         </footer>
     </div>
 
@@ -448,7 +532,6 @@
             document.querySelectorAll('.filter-pill').forEach(el => el.classList.remove('active'));
             element.classList.add('active');
             
-            // ถ้ามีคำค้นหาอยู่แล้ว ให้กดค้นหาใหม่ด้วยฟิลเตอร์ปัจจุบันทันที
             if(document.getElementById('searchInput').value.trim() !== '') {
                 searchScripts();
             }
@@ -486,7 +569,7 @@
                 return;
             }
 
-            resultsDiv.innerHTML = '<div class="welcome-box"><div style="color: var(--accent-glow); font-size: 1.1rem;">⏳ กำลังเชื่อมต่อ ScriptBlox API...</div></div>';
+            resultsDiv.innerHTML = '<div class="welcome-box"><div style="color: var(--accent-glow); font-size: 1.15rem; font-weight: 600;">⏳ กำลังกวาดข้อมูลจากเซิร์ฟเวอร์สำรองทั้งหมด...</div></div>';
             metaBar.style.display = 'none';
 
             try {
@@ -494,13 +577,13 @@
                 const resultData = await response.json();
 
                 if (!response.ok) {
-                    throw new Error(resultData.error || 'เกิดข้อผิดพลาดในการดึงข้อมูล');
+                    throw new Error(resultData.error || 'เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์');
                 }
 
-                const scripts = resultData.data.result.scripts;
+                const scripts = resultData.data?.result?.scripts || [];
 
-                if (!scripts || scripts.length === 0) {
-                    resultsDiv.innerHTML = '<div class="welcome-box">❌ ไม่พบสคริปต์ที่ตรงกับเงื่อนไขของคุณ ลองเปลี่ยนคำค้นหาหรือตัวกรองดูครับ</div>';
+                if (scripts.length === 0) {
+                    resultsDiv.innerHTML = '<div class="welcome-box">❌ ไม่พบสคริปต์ที่ตรงกับเงื่อนไข ลองเปลี่ยนคำค้นหาหรือเลือกหมวดหมู่อื่นดูครับ</div>';
                     metaBar.style.display = 'none';
                     return;
                 }
@@ -513,27 +596,38 @@
                     const card = document.createElement('div');
                     card.className = 'script-card';
 
-                    const gameName = script.game && script.game.name ? script.game.name : 'Unknown Game';
+                    const gameName = script.game || 'Unknown Game';
                     const views = script.views || 0;
-                    const hasKey = script.key || script.isKeySystem;
+                    const hasKey = script.key === true;
+                    const isVerified = script.verified === true;
+                    const sourceName = script.source || 'Aggregator';
                     
                     const keyBadgeHTML = hasKey 
-                        ? `<span class="key-badge yes">🔑 มีคีย์</span>` 
-                        : `<span class="key-badge no">🟢 ไม่มีคีย์</span>`;
+                        ? `<span class="badge yes">🔑 มีคีย์</span>` 
+                        : `<span class="badge no">🟢 ไม่มีคีย์</span>`;
+
+                    const verifiedBadgeHTML = isVerified
+                        ? `<span class="badge verified">✓ Verified</span>`
+                        : '';
 
                     card.innerHTML = `
                         <div class="script-header">
                             <div class="script-title">${escapeHtml(script.title)}</div>
-                            <div class="badges-group">${keyBadgeHTML}</div>
+                            <div class="badges-group">
+                                ${verifiedBadgeHTML}
+                                ${keyBadgeHTML}
+                            </div>
                         </div>
                         <div class="game-info">
                             <span>🎮 ${escapeHtml(gameName)}</span>
                             <span>•</span>
-                            <span>👁️ ${views} เข้าชม</span>
+                            <span>👁️ ${views.toLocaleString()} เข้าชม</span>
                         </div>
-                        <textarea readonly>${escapeHtml(script.script)}</textarea>
+                        <div class="code-container">
+                            <textarea readonly>${escapeHtml(script.script)}</textarea>
+                        </div>
                         <div class="card-actions">
-                            <span style="font-size: 0.75rem; color: var(--text-muted);">แหล่งที่มา: ScriptBlox API</span>
+                            <span class="badge source">📦 แหล่งที่มา: ${escapeHtml(sourceName)}</span>
                             <button class="copy-btn" onclick="copyScript(this, \`${encodeURIComponent(script.script)}\`)">
                                 📋 คัดลอกโค้ด
                             </button>
@@ -544,7 +638,7 @@
                 });
 
             } catch (error) {
-                resultsDiv.innerHTML = `<div class="welcome-box" style="color: #f87171;">❌ เกิดข้อผิดพลาด: ${error.message}</div>`;
+                resultsDiv.innerHTML = `<div class="welcome-box" style="color: var(--danger-color);">❌ เกิดข้อผิดพลาด: ${escapeHtml(error.message)}</div>`;
                 metaBar.style.display = 'none';
             }
         }
@@ -578,7 +672,7 @@
 
         function escapeHtml(text) {
             if (!text) return '';
-            return text
+            return String(text)
                 .replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;")
@@ -588,4 +682,3 @@
     </script>
 </body>
 </html>
-
